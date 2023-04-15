@@ -116,6 +116,37 @@ def _validMoves(self,curTurn, x,y):
 
 
 
+def _coordsSelected():
+     for event in pygame.event.get(): # waits for a mouse click event
+            if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                pos = pygame.mouse.get_pos() # gets the position of the mouse on click
+
+                if (pos[0] < width/8):
+                    y = 0
+                elif (pos[0] < 2*(width/8)):
+                    y = 1
+                elif (pos[0] < 3*width/8):
+                    y = 2
+                elif (pos[0] < 4*(width/8)):
+                    y = 3
+                elif (pos[0] < 5*width/8):
+                    y = 4
+                elif (pos[0] < 6*(width/8)):
+                    y = 5
+                elif (pos[0] < 7*width/8):
+                    y = 6
+                elif (pos[0] < (width)):
+                    y = 7
+
+
+
+                            if (pos[1] < height/3):
+                                x = 0
+                            elif (pos[1] < 2*(height/3)):
+                                x = 1
+                            elif (pos[1] < height):
+                                x = 2
+
 
 
 def _canJump(self,x,y, tryX, tryY):
