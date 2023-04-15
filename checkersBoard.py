@@ -31,13 +31,18 @@ def _jump(self):
 def _validMoves(self,curTurn, x,y):
     moves = [0,0,0,0]
     
-    if(curTurn == 0 ):
+    if(curTurn == 0):
         if(self._board[x-1][y+1] == 'O'):
             moves[0] = x-1
             moves[1] = y+1
-        elif((self._board[x-1][y+1] == 'B' and) or (self._board[x-1][y+1] == 'R' and curTurn = 1))  
+        elif(self._board[x-1][y+1] == 'B'):  
+            if(_canJump(x,y)):
+                moves[2] = 
+        else:
 
-def _canJump(self)
+
+
+def _canJump(self,x,y):
     
 
 
