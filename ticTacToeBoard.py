@@ -61,7 +61,8 @@ class TicTacToe:
                 for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONUP:
                             pos = pygame.mouse.get_pos()
-
+                            print(f'mouse position: ({pos[0]}, {pos[1]})')
+                            
                             if (pos[0] < 213):
                                 x = 0
                             elif (pos[0] < 426):
@@ -89,9 +90,6 @@ class TicTacToe:
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
 
                             elif (self._turnNum % 2 == 1): # runs if it is O's move
-                                x = int(input('Enter x coordinate for O move: ')) # gets the x coordinate input from the user
-                                y = int(input('Enter y coordinate for O move: ')) # gets the y coordinate input from the user
-
                                 if (self._place(x, y)): # calls place and will return True if successfully places
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
