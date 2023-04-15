@@ -62,6 +62,7 @@ class TicTacToe:
         while (running):
             screen.fill((255, 255, 255))
             screen.blit(background, (0, 0))
+            pygame.draw.circle(screen, "red", (100,100), 40)
 
             while (self._turnNum < 9): # runs while the board isn't full
                 for event in pygame.event.get(): # waits for a mouse click event
