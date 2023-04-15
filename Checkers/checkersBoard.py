@@ -28,7 +28,7 @@ class CheckersBoard:
 
 def _run(self):
     while (running):
-        while self._r
+        while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0)
         turn = 0
         curLocation = (_select(turn)[2][0], _select(turn[2][1]))
         leftMove = (_select(turn)[0][0], _select(turn)[0][1])
@@ -45,9 +45,6 @@ def _move(self, xOld, yOld, xNew, yNew, turn):
         self._board[xNew][yNew] = 'R'
     elif(turn == 1):
         self._board[xNew][yNew] = 'B'
-
-
-def _jump(self):
     
 
 
