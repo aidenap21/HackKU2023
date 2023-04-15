@@ -1,3 +1,4 @@
+import asyncio
 import pygame 
 import sys
 import os
@@ -21,8 +22,8 @@ class CheckersBoard:
         self._turn = 0
         self._rPiecesLeft = 12
         self._bPiecesLeft = 12
-        self._bLocations = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        self._rLocations = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        self._bLocations = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+        self._rLocations = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
         self._board = [] # '-' is invalid spot, 'B' is black piece, 'R' is red piece, 'O' is open spot, 'BK' is black king, 'RK' is red king
         self._board.append(['-', 'B', '-', 'B', '-', 'B', '-', 'B'])
         self._board.append(['B', '-', 'B', '-', 'B', '-', 'B', '-'])
@@ -33,113 +34,132 @@ class CheckersBoard:
         self._board.append(['-', 'R', '-', 'R', '-', 'R', '-', 'R'])
         self._board.append(['R', '-', 'R', '-', 'R', '-', 'R', '-'])
 
-    def run(self): #Initial run function to be called to start the process
-        for i in range(8):
-            for j in range(8):
-                print(self._board[i][j])
-            print('\n')
-        print('\n')
+    async def run(self): #Initial run function to be called to start the process
 
+        self._printGrid()
         while (running): #Start the game
             while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0 or self._rCanMove == False or self._bCanMove): #Check for end conditions
+                x = 3
+                y = 0
+                
+                curLocation = [self._select(x, y)[2][0], self._select(x, y)[2][1]] #Get the current selected location's coords
 
-                x = self._coordsSelected[0]
-                y = self._coordsSelected[1]
+                self._updateLocations()
 
-                curLocation = (self._select(x, y)[2][0], self._select(x, y)[2][1]) #Get the current selected location's coords
-                if (self._board[curLocation[0]][curLocation[1]]):
-
-                    self._locations(self._rPiecesLeft) #Update the locations of all the red pieces
-                    self._locations(self._bPiecesLeft) #Update the locations of all the black pieces
-
-                    jumpedLocation = (self._select(x, y)[3][0], self._select(x, y)[3][1])
-                    leftMove = (self._select(x, y)[0][0], self._select(x, y)[0][1], self._select(x, y)[0][2]) #Get the selected locations' left move 
-                    print(f'the left move at {self._select(x, y)[0][0]},{self._select(x, y)[0][1]} can {self._select(x, y)[0][2]}')
+                if(self._select(x,y)[3][0] == 1):
+                    jumpedLocationLeft = (self._select(x, y)[3][0], self._select(x, y)[3][1], self._select(x, y)[3][2])
                     
-                    rightMove = (self._select(x, y)[1][0], self._select(x, y)[1][1], self._select(x, y)[1][2]) #Get the selected locations' right move location
-                    print(f'the right move at {self._select(x, y)[1][0]},{self._select(x, y)[1][1]} can {self._select(x, y)[1][2]}')
 
-                    selectedCoord = self._coordsSelected() #Get the user's mouse input 
+                if(self._select(x,y)[4][0] == 1):
+                    jumpedLocationRight = (self._select(x, y)[4][0], self._select(x, y)[4][1], self._select(x, y)[4][2])
+
+                leftMove = (self._select(x, y)[0][0], self._select(x, y)[0][1], self._select(x, y)[0][2]) #Get the selected locations' left move 
+                print(f'the left move at {self._select(x, y)[0][0]},{self._select(x, y)[0][1]} can {self._select(x, y)[0][2]}')
+                                
+                rightMove = (self._select(x, y)[1][0], self._select(x, y)[1][1], self._select(x, y)[1][2]) #Get the selected locations' right move location
+                print(f'the right move at {self._select(x, y)[1][0]},{self._select(x, y)[1][1]} can {self._select(x, y)[1][2]}')
+
+                selectedCoord = self._coordsSelected() #Get the user's mouse input 
+                print(f'User selected {selectedCoord[0]},{selectedCoord[1]}')
+
+                
+                if (selectedCoord[0] == leftMove[0] and selectedCoord[1] == leftMove[1]):
+                    self._move(curLocation, selectedCoord, jumpedLocationLeft)
                     
-                    if ((selectedCoord[0] == leftMove[0] and selectedCoord[1] == leftMove[1]) or (selectedCoord[0] == rightMove[0] and selectedCoord[1] == rightMove[1])):
-                            self._move(curLocation[0], curLocation[1], selectedCoord[0], selectedCoord[1], leftMove[2], jumpedLocation[0], jumpedLocation[1])
+                elif(selectedCoord[0] == rightMove[0] and selectedCoord[1] == rightMove[1]):
+                    self._move(curLocation, selectedCoord, jumpedLocationRight)
 
-                    for i in range(8):
-                        for j in range(8):
-                            print(self._board[i][j])
-                        print('\n')
-                    print('\n')
+                self._printGrid()
+                
+            await asyncio.sleep(0)
         
     def _select(self, x, y):
-        if (self._turn == 0 and self._board[x][y] == 'R'):
-                self._validMoves(self._turn, x,y)
-        elif(self._turn == 1 and self._board[x][y] == 'B'):
-                self._validMoves(self._turn, x,y)
+        while((self._turn == 0 and self._board[x][y] != 'R') or (self._turn == 1 and self._board[x][y] == 'B')):
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                    x = self._coordsSelected()[0]
+                    y = self._coordsSelected()[1]
+                    print(f'{x},{y} = {self._board[x][y]}')
 
-    def _validMoves(self,curTurn, x,y):
-        moves = [(0, 0, 0),(0, 0, 0),(x,y)]
+
+        if (self._turn == 0 and self._board[x][y] == 'R'):
+            return self._validMoves(x,y)
+        elif(self._turn == 1 and self._board[x][y] == 'B'):
+            return self._validMoves(x,y)
+
+
+    def _validMoves(self, x,y):
+        print(f'validMoves was passed {x},{y} on {self._turn}s turn')
+        moves = [[0, 0],[0, 0],[x,y],[0,0,0],[0,0,0]] #[0] = left move, [1] = right move, [2] = original position, [3] =left jump, [4] = right jump
+
+        print(f'Current Selection: {moves[2][0]},{moves[2][1]}')
         
-        if(curTurn == 0):
+        if(self._turn == 0):
             try:
                 if(self._board[x-1][y+1] == 'O'):
                     moves[1][0] = x-1
                     moves[1][1] = y+1
-                elif(self._board[x-1][y+1] == 'B'):  
-                    if(self._canJump(x,y,x-2,y+2)):
-                        moves[1][0] = x-2
-                        moves[1][1] = y+2
-                        moves[1][2] = 1
+                    print(f'right move @ {moves[1][0]},{moves[1][1]}')
+                elif((self._board[x-1][y-1] == 'B') and (self._board[x-2][y+2] == 'O')):  
+                    moves[1][0] = x-2
+                    moves[1][1] = y+2
+                    
+                    moves[4][0] = 1
+                    moves[4][1] = x-1
+                    moves[4][2] = y+1
+                    print(f'right move @ {moves[1][0]},{moves[1][1]}')
 
-                        moves[3][0] = x-1
-                        moves[3][1] = y+1
-                    else:
-                        raise RuntimeError
                 elif(self._board[x-1][y+1] == 'R'):
                         raise RuntimeError
             except:
                 moves[1][0] = -1
                 moves[1][1] = -1
+                print(f'right move @ {moves[1][0]},{moves[1][1]}')
 
     #---------------------right^-----leftv------------------------------------------------        
 
             try:
-                if(self._board[x+1][y+1] == 'O'):
-                    moves[0][0] = x+1
-                    moves[0][1] = y+1
-                elif(self._board[x+1][y+1] == 'B'):  
-                    if(self._canJump(x,y,x+2,y+2)):
-                        moves[0][0] = x+2
-                        moves[0][1] = y+2
-                        moves[0][2] = 1
-
-                        moves[3][0] = x+1
-                        moves[3][1] = y+1
+                if(self._board[x-1][y-1] == 'O'):
+                    moves[0][0] = x-1
+                    moves[0][1] = y-1
+                    print(f'left move @ {moves[0][0]},{moves[0][1]}')
+                elif((self._board[x-1][y-1] == 'B') and (self._board[x-2][y-2] == 'O')):  
+                    if(self._canJump(x,y,x-2,y-2)):
+                        moves[0][0] = x-2
+                        moves[0][1] = y-2
+                        
+                        moves[3][0] = 1
+                        moves[3][1] = x-1
+                        moves[3][2] = y-1
+                        print(f'left move @ {moves[0][0]},{moves[0][1]}')
                     else:
                         raise RuntimeError
-                elif(self._board[x+1][y+1] == 'R'):
+                elif(self._board[x-1][y-1] == 'R'):
                         raise RuntimeError
             except:
                 moves[0][0] = -1
                 moves[0][1] = -1
+                print(f'left move @ {moves[0][0]},{moves[0][1]}')
+                
 
 
     #----------------------------Black Moves--------------------------------------------------------------------------
-        elif(curTurn == 1):
+        elif(self._turn == 1):
                 try:
-                    if(self._board[x-1][y-1] == 'O'):
-                        moves[1][0] = x-1
-                        moves[1][1] = y-1
-                    elif(self._board[x-1][y-1] == 'R'):  
-                        if(self._canJump(x,y,x-2,y-2)):
-                            moves[1][0] = x-2
-                            moves[1][1] = y-2
-                            moves[1][2] = 1
-
-                            moves[3][0] = x-1
-                            moves[3][1] = y-1
+                    if(self._board[x+1][y+1] == 'O'):
+                        moves[1][0] = x+1
+                        moves[1][1] = y+1
+                    elif((self._board[x+1][y+1] == 'R') and (self._board[x+2][y+2] == 'O')):  
+                        if(self._canJump(x,y,x+2,y+2)):
+                            moves[1][0] = x+2
+                            moves[1][1] = y+2
+                            
+                            moves[4][0] = 1
+                            moves[4][1] = x+1
+                            moves[4][2] = y+1
                         else:
                             raise RuntimeError
-                    elif(self._board[x-1][y-1] == 'B'):
+                    elif(self._board[x+1][y+1] == 'B'):
                             raise RuntimeError
                 except:
                     moves[1][0] = -1
@@ -150,14 +170,14 @@ class CheckersBoard:
                     if(self._board[x+1][y-1] == 'O'):
                         moves[0][0] = x+1
                         moves[0][1] = y-1
-                    elif(self._board[x+1][y+1] == 'R'):  
+                    elif((self._board[x+1][y-1] == 'R') and (self._board[x+2][y-2] == 'O')):  
                         if(self._canJump(x,y,x+2,y-2)):
                             moves[0][0] = x+2
                             moves[0][1] = y-2
-                            moves[0][2] = 1
-
-                            moves[3][0] = x+1
-                            moves[3][1] = y-1
+                            
+                            moves[3][0] = 1
+                            moves[3][1] = x+1
+                            moves[3][2] = y-1
                         else:
                             raise RuntimeError
                     elif(self._board[x+1][y-1] == 'B'):
@@ -169,36 +189,40 @@ class CheckersBoard:
     
 
 
-    def _move(self, xOld, yOld, xNew, yNew, jump, xJump, yJump):
-        self._board[xOld][yOld] = 'O'
+    def _move(self, old, new, jump):
+        self._board[old[0]][old[1]] = 'O'
         if(self._turn == 0):
-            self._board[xNew][yNew] = 'R'
+            self._board[new[0]][new[1]] = 'R'
         elif(self._turn == 1):
-            self._board[xNew][yNew] = 'B'
+            self._board[new[0]][new[1]] = 'B'
 
-        if(jump == 1):
-            self._board[xJump][yJump] = 'O'
+        if(jump[0] == 1):
+            self._board[jump[1]][jump[2]] = 'O'
 
             if (self._turn == 0):
                 self._bPiecesLeft -= 1
-                self._bLocations[xJump].pop(yJump)
+                self._bLocations[jump[1]].pop(jump[2])
             elif (self._turn == 1):
                 self._rPiecesLeft -= 1
-                self._rLocations[xJump].pop(yJump)
+                self._rLocations[jump[1]].pop(jump[2])
 
-            jumpedLocation = (self._select(xNew, yNew)[3][0], self._select(xNew, yNew)[3][1])
-            leftMove = (self._select(xNew, yNew)[0][0], self._select(xNew , yNew)[0][1], self._select(xNew, yNew)[0][2]) #Get the selected locations' left move 
-            rightMove = (self._select(xNew, yNew)[1][0], self._select(xNew, yNew)[1][1], self._select(xNew, yNew)[1][2]) #Get the selected locations' right move
+            if (self._select(new[0], new[1])[3][0] == 1):
+                jumpedLocation = (self._select(new[0], new[1])[3][0], self._select(new[0], new[1])[3][1], self._select(new[0], new[1])[3][2])
+                leftMove = (self._select(new[0], new[1])[0][0], self._select(new[0], new[1])[0][1], self._select(new[0], new[1])[0][2]) #Get the selected locations' left move 
+                self._move(new, leftMove, jumpedLocation)
             
-            if (leftMove[2] == 1):
-                self._move(xNew, yNew, leftMove[0], leftMove[1], jumpedLocation[0], jumpedLocation[1])
-            
-            elif (rightMove[2] == 1):
-                self._move(xNew, yNew, rightMove[0], rightMove[1], jumpedLocation[0], jumpedLocation[1])
+            elif(self._select(new[0], new[1])[3][0] == 1):
+                jumpedLocation = (self._select(new[0], new[1])[4][0], self._select(new[0], new[1])[4][1], self._select(new[0], new[1])[4][2])
+                rightMove = (self._select(new[0], new[1])[1][0], self._select(new[0], new[1])[1][1], self._select(new[0], new[1])[1][2]) #Get the selected locations' right move
+                self._move(new, rightMove, jumpedLocation)
 
 
-        self._locations(self._rPiecesLeft) #Update the locations of all the red pieces
-        self._locations(self._bPiecesLeft) #Update the locations of all the black pieces
+        self._updateLocations(self._rPiecesLeft) #Update the locations of all the red pieces
+        self._updateLocations(self._bPiecesLeft) #Update the locations of all the black pieces
+        if (self._turn == 1):
+            self._turn = 0
+        elif (self._turn == 0):
+            self._turn = 1
 
 
 
@@ -206,49 +230,44 @@ class CheckersBoard:
 
 
     def _coordsSelected(self): #Get the users mouse input to find which tile they selected 
-        x = 0
-        y = 0
-        for event in pygame.event.get(): # waits for a mouse click event
-                if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
-                    pos = pygame.mouse.get_pos() # gets the position of the mouse on click
-                    if (pos[0] < width/8):
-                        y = 0
-                    elif (pos[0] < 2*(width/8)):
-                        y = 1
-                    elif (pos[0] < 3*width/8):
-                        y = 2
-                    elif (pos[0] < 4*(width/8)):
-                        y = 3
-                    elif (pos[0] < 5*(width/8)):
-                        y = 4
-                    elif (pos[0] < 6*(width/8)):
-                        y = 5
-                    elif (pos[0] < 7*(width/8)):
-                        y = 6
-                    elif (pos[0] < (width)):
-                        y = 7
+
+        pos = pygame.mouse.get_pos() # gets the position of the mouse on click
+        if (pos[0] < width/8):
+            y = 0
+        elif (pos[0] < 2*(width/8)):
+            y = 1
+        elif (pos[0] < 3*width/8):
+            y = 2
+        elif (pos[0] < 4*(width/8)):
+            y = 3
+        elif (pos[0] < 5*(width/8)):
+            y = 4
+        elif (pos[0] < 6*(width/8)):
+            y = 5
+        elif (pos[0] < 7*(width/8)):
+            y = 6
+        elif (pos[0] < (width)):
+            y = 7
 
 
-                    if (pos[1] < height/8):
-                        x = 0
-                    elif (pos[1] < 2*(height/8)):
-                        x = 1
-                    elif (pos[1] < 3*(height/8)):
-                        x = 2
-                    elif (pos[1] < 4*(height/8)):
-                        x = 3
-                    elif (pos[1] < 5*(height/8)):
-                        x = 4
-                    elif (pos[1] < 6*(height/8)):
-                        x = 5
-                    elif (pos[1] < 7*(height)/8):
-                        x = 6
-                    elif (pos[1] < (height)):
-                        x = 7
+        if (pos[1] < height/8):
+            x = 0
+        elif (pos[1] < 2*(height/8)):
+            x = 1
+        elif (pos[1] < 3*(height/8)):
+            x = 2
+        elif (pos[1] < 4*(height/8)):
+            x = 3
+        elif (pos[1] < 5*(height/8)):
+            x = 4
+        elif (pos[1] < 6*(height/8)):
+            x = 5
+        elif (pos[1] < 7*(height)/8):
+            x = 6
+        elif (pos[1] < (height)):
+            x = 7
 
-        return (x,y)
-
-
+        return [x,y]
 
     def _bCanMove(self): #Run thru every current black piece's valid moves to check if they all can move
         for i in self._bLocations:
@@ -261,7 +280,7 @@ class CheckersBoard:
                 return True
         return False
 
-    def _locations(self): #Run thru the entire board to find the locations of every piece
+    def _updateLocations(self): #Run thru the entire board to find the locations of every piece
         for point in range(self._bPiecesLeft):
             for i in range(8):
                 for j in range(8):
@@ -276,6 +295,12 @@ class CheckersBoard:
                         self._bLocations[point][0] = i
                         self._bLocations[point][1] = j
 
+    def _printGrid(self):
+        for i in range(8):
+            for j in range(8):
+                print(self._board[i][j],end='')
+            print('')
+        
 
         
 

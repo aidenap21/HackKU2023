@@ -1,3 +1,4 @@
+import asyncio
 import pygame 
 import sys
 import os
@@ -94,9 +95,11 @@ class connectFour:
             return 464
         if colNum == 6:
             return 551
+        
+    def _success(self,)
 
         
-    def run(self):
+    async def run(self):
         while (running):
             surface.blit(background,(0,0))
             pygame.display.flip()
@@ -128,6 +131,8 @@ class connectFour:
                                 row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
                                 column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
                                 print([row,column])
+                                if (self._success):
+                                    print("We have a winner!")
                                 if (self._move-1) % 2 == 0: 
                                     surface.blit(red_chip,(column,row))
                                 else:
@@ -139,3 +144,5 @@ class connectFour:
                             for line in self.board:
                                 print(line)
                             print(self._move)
+                            
+            await asyncio.sleep(0)
