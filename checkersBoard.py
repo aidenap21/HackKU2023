@@ -37,7 +37,8 @@ def _validMoves(self,curTurn, x,y):
             moves[1] = y+1
         elif(self._board[x-1][y+1] == 'B'):  
             if(_canJump(x,y)):
-                moves[2] = 
+                moves[2] = x-3
+                moves[3] = x+3
         else:
 
 
