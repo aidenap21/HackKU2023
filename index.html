@@ -11,15 +11,19 @@
     <h3 id="choose">Choose a game to play</h3>
     <br>
 
-    <div id="TicTacToeDiv">
-        <a href="TicTacToe/build/web/index.html" target="_blank"><img id = "tic_tac_toe_icon" src="pictures/tic_tac_toe_icon.png" height="200" width="200"></a>
-        <p id="ttt">Tic-Tac-Toe</p>
-    </div>
+    <div class="flex-container">
 
-    <div id="CheckersDiv"></div>
-    <a href="Checkers/checkers.html" target="_blank"><img id = "checkers_icon" src="pictures/checkers_icon.png" height="200" width="200"></a>
-    <br>
-    <p id="checkers">Checkers</p>
+        <div class="flex-child TicTacToe">
+            <a href="TicTacToe/build/web/index.html" target="_blank"><img id = "tic_tac_toe_icon" src="pictures/tic_tac_toe_icon.png" height="200" width="200"></a>
+            <p id="ttt">Tic-Tac-Toe</p>
+        </div>
+
+        <div class="flex-child CheckersDiv">
+        <a href="Checkers/checkers.html" target="_blank"><img id = "checkers_icon" src="pictures/checkers_icon.png" height="200" width="200"></a>
+        <br>
+        <p id="checkers">Checkers</p>
+        </div>
+
     </div>
     
 
@@ -65,6 +69,18 @@
             font-size: 25px;
             font-family: Verdana, Tahoma, sans-serif;
         }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 1;
+        }  
+
+        .flex-child:first-child {
+            margin-right: 20px;
+        } 
 
     </style>
 
