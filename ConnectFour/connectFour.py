@@ -4,7 +4,7 @@ import sys
 import os
 
 
-os.chdir("ConnectFour")
+# os.chdir("ConnectFour") # uncomment if running on system
 pygame.init()
 width = 639
 height = 553
