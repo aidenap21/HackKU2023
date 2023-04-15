@@ -11,7 +11,7 @@ width, height = 640, 640
 screen = pygame.display.set_mode((width, height))
 font = pygame.font.SysFont('Arial', 40)
 
-os.chdir('TicTacToe') # only useful if running on system and not on browseer
+# os.chdir('TicTacToe') # only useful if running on system and not on browseer
 # path for images behaves correctly in pygbag but not when directly running main
 background = pygame.image.load(os.path.join('assets', 'TicTacToeBoard.jpg'))
 x_icon = pygame.image.load(os.path.join('assets', 'X_icon.png'))
