@@ -17,12 +17,12 @@ objects = []
 
 class TicTacToe:
     def __init__(self):
-        self._board = [[0,0,0],[0,0,0],[0,0,0]] # initializes board as list of lists to stores moves
+        self._board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']] # initializes board as list of lists to stores moves
         self._turnNum = 0 # tracks which round the game is on
 
     def _place(self, x, y): #Function to place the mark
         if (0 <= x <= 2) and (0 <= y <= 2):
-            if (self._board[x][y] == 0): #Check if the current move is valid
+            if (self._board[x][y] == ' '): #Check if the current move is valid
                 if (self._turnNum % 2 == 0): #Check if it's player 1's turn
                         self._board[x][y] = 'X' #If so, place an 'X' in the location
                         
@@ -40,17 +40,18 @@ class TicTacToe:
     def _winCheck(self):
         for i in range(0, 3): # iterates from 0-3 to access every row
             if (self._board[i][0] == self._board[i][1] == self._board[i][2]): # checks the current i value row
-                if (self._board[i][0] == 'X' or self._board[i][0] == 'O'):
+                if (self._board[i][0] != ' '):
                     return True # returns the value of the winner if there are 3 of the same across
-            if (self._board[0][i] == self._board[1][i] == self._board[2][0]): # checks the current i value column
-                if (self._board[0][i] == 'X' or self._board[0][i] == 'O'):
+                
+            if (self._board[0][i] == self._board[1][i] == self._board[2][i]): # checks the current i value column
+                if (self._board[0][i] != ' '):
                     return True # returns the value of the winner if there are 3 of the same across
             
         if (self._board[0][0] == self._board[1][1] == self._board[2][2]): # checks a diagonal
-            if (self._board[1][1] == 'X' or self._board[1][1] == 'O'):
+            if (self._board[1][1] != ' '):
                 return True # returns the value of the winner if there are 3 of the same diagonal
         if (self._board[0][2] == self._board[1][1] == self._board[2][0]): # checks a diagonal
-            if (self._board[1][1] == 'X' or self._board[1][1] == 'O'):
+            if (self._board[1][1] != ' '):
                 return True # returns the value of the winner if there are 3 of the same diagonal
         
         return False
@@ -81,7 +82,7 @@ class TicTacToe:
                                 if (self._place(x, y)): # calls place and will return True if successfully places
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
-                                    print('\n')
+                                    print('')
 
                                     if (self._winCheck()): # checks if someone has won
                                         print('X wins!') # prints that X has won
@@ -95,7 +96,7 @@ class TicTacToe:
                                 if (self._place(x, y)): # calls place and will return True if successfully places
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
-                                    print('\n')
+                                    print('')
 
                                     if (self._winCheck()): # checks if someone has won
                                         print('O wins!') # prints that X has won
@@ -104,7 +105,7 @@ class TicTacToe:
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
-            break
+            break #yoooo my names aiden im stupid fart poop
 
         if (self._turnNum < 10): # runs if the board filled with no winner
             print('Draw!') # prints the draw message
