@@ -5,8 +5,6 @@ import os
 
 #Need to do
 # - Add functionality for kings
-# - Add functionality for jump function
-# - Allow a second jump if available
 # - Create board
 
 pygame.init()
@@ -36,6 +34,12 @@ class CheckersBoard:
         self._board.append(['R', '-', 'R', '-', 'R', '-', 'R', '-'])
 
     def run(self): #Initial run function to be called to start the process
+        for i in range(8):
+            for j in range(8):
+                print(self._board[i][j])
+            print('\n')
+        print('\n')
+
         while (running): #Start the game
             while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0 or self._rCanMove == False or self._bCanMove): #Check for end conditions
                 self._locations(self._rPiecesLeft) #Update the locations of all the red pieces
@@ -53,8 +57,15 @@ class CheckersBoard:
 
                 if ((selectedCoord[0] == leftMove[0] and selectedCoord[1] == leftMove[1]) or (selectedCoord[0] == rightMove[0] and selectedCoord[1] == rightMove[1])):
                         self._move(curLocation[0], curLocation[1], selectedCoord[0], selectedCoord[1], leftMove[2], jumpedLocation[0], jumpedLocation[1])
+
+                for i in range(8):
+                    for j in range(8):
+                        print(self._board[i][j])
+                    print('\n')
+                print('\n')
         
     def _select(self, x, y):
+        print(f'tile {x},{y} ')
         if (self._turn == 0 and self._board[x][y] == 'R'):
                 self._validMoves(self._turn, x,y)
         elif(self._turn == 1 and self._board[x][y] == 'B'):
@@ -170,12 +181,15 @@ class CheckersBoard:
                 self._rPiecesLeft -= 1
                 self._rLocations[xJump].pop(yJump)
 
-
-            if (self._validMoves(self._curTurn, xNew, yNew)[0][2] == 1):
-                self._move(xNew, yNew, )
+            jumpedLocation = (self._select(xNew, yNew)[3][0], self._select(xNew, yNew)[3][1])
+            leftMove = (self._select(xNew, yNew)[0][0], self._select(xNew , yNew)[0][1], self._select(xNew, yNew)[0][2]) #Get the selected locations' left move 
+            rightMove = (self._select(xNew, yNew)[1][0], self._select(xNew, yNew)[1][1], self._select(x, y)[1][2]) #Get the selected locations' right move
             
-            elif (self._validMoves(self._curTurn, xNew, yNew)[1][2] == 1):
-                self._move(xNew, yNew, )
+            if (leftMove[2] == 1):
+                self._move(xNew, yNew, leftMove[0], leftMove[1], jumpedLocation[0], jumpedLocation[1])
+            
+            elif (rightMove[2] == 1):
+                self._move(xNew, yNew, rightMove[0], rightMove[1], jumpedLocation[0], jumpedLocation[1])
 
 
         self._locations(self._rPiecesLeft) #Update the locations of all the red pieces
