@@ -14,9 +14,11 @@ font = pygame.font.SysFont('Arial', 40)
 
 objects = []
 
-background = pygame.image.load(os.path.join('TicTacToeBoard.jpg'))
-x_icon = pygame.image.load(os.path.join('X_icon.png'))
-o_icon = pygame.image.load(os.path.join('O_icon.png'))
+# path for images behaves correctly in pygbag but not when directly running main
+background = pygame.image.load(os.path.join('assets', 'TicTacToeBoard.jpg'))
+x_icon = pygame.image.load(os.path.join('assets', 'X_icon.png'))
+o_icon = pygame.image.load(os.path.join('assets', 'O_icon.png'))
+
 
 
 class TicTacToe:
@@ -38,8 +40,8 @@ class TicTacToe:
         else:
             return False
 
-        self._turnNum += 1
-        return True
+        self._turnNum += 1 # increases the turnNum
+        return True # returns True because the move was succesfully placed
 
     def _winCheck(self):
         for i in range(0, 3): # iterates from 0-3 to access every row
@@ -151,7 +153,7 @@ class TicTacToe:
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
-                await asyncio.sleep(0)
+                await asyncio.sleep(0) # allows pygbag to function to run in browser
             break
 
         if (self._turnNum < 10): # runs if the board filled with no winner

@@ -8,7 +8,8 @@ pygame.init()
 running = True
 fps = 60
 fpsClock = pygame.time.Clock()
-width, height = 640, 640
+width, height = 700, 700
+position = [0,0]
 screen = pygame.display.set_mode((width, height))
 
 font = pygame.font.SysFont('Arial', 40)
@@ -19,7 +20,6 @@ background = pygame.image.load(os.path.join('ConnectFour', 'assets', 'connectFou
 red_chip = pygame.image.load(os.path.join('ConnectFour', 'assets', 'red_chip.png'))
 yellow_chip = pygame.image.load(os.path.join('ConnectFour', 'assets', 'yellow_chip.png'))
 
-x = 
 
 class connectFour:
 
@@ -58,7 +58,7 @@ class connectFour:
         while (running):
             screen.fill(255,255,255)
             screen.blit(background,0,0)
-            pygame.draw.rect()
+            pygame.draw.rect(screen,(255,0,0),pygame.rect(30,30,60,60))
             pygame.display.flip()
 
             while (self._move < 42):    # Runs until the max amount of moves, which is 42
