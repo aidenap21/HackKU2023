@@ -1,5 +1,7 @@
 import pygame 
 import sys
+#from pygame.locals import *
+import os
 
 pygame.init()
 running = True
@@ -12,9 +14,7 @@ font = pygame.font.SysFont('Arial', 40)
 
 objects = []
 
-screen = pygame.display.set_mode((640, 640))
-
-background = pygame.image.load('pictures/ticTacToeBoard.jpg')
+background = pygame.image.load(os.path.join('pictures', 'TicTacToeBoard.jpg'))
 
 
 class TicTacToe:
@@ -60,25 +60,27 @@ class TicTacToe:
     
     def run(self):
         while (running):
+            screen.fill((255, 255, 255))
             screen.blit(background, (0, 0))
+
             while (self._turnNum < 9): # runs while the board isn't full
                 for event in pygame.event.get(): # waits for a mouse click event
                         if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
                             pos = pygame.mouse.get_pos() # gets the position of the mouse on click
 
                             # following statements translate mouse position to the x and y coordinates needed for the place function
-                            if (pos[0] < 213):
+                            if (pos[0] < width/3):
                                 y = 0
-                            elif (pos[0] < 426):
+                            elif (pos[0] < 2*(width/3)):
                                 y = 1
-                            elif (pos[0] < 640):
+                            elif (pos[0] < width):
                                 y = 2
 
-                            if (pos[1] < 213):
+                            if (pos[1] < height/3):
                                 x = 0
-                            elif (pos[1] < 426):
+                            elif (pos[1] < 2*(height/3)):
                                 x = 1
-                            elif (pos[1] < 640):
+                            elif (pos[1] < height):
                                 x = 2
 
                             if (self._turnNum % 2 == 0): # runs if it is X's turn
