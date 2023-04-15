@@ -11,14 +11,16 @@
     <h3 id="choose">Choose a game to play</h3>
     <br>
 
-    <div class="img-with-text">
+    <div id="TicTacToeDiv">
         <a href="TicTacToe/build/web/index.html" target="_blank"><img id = "tic_tac_toe_icon" src="pictures/tic_tac_toe_icon.png" height="200" width="200"></a>
-        <p>Tic-Tac-Toe</p>
+        <p id="ttt">Tic-Tac-Toe</p>
     </div>
 
+    <div id="CheckersDiv"></div>
     <a href="Checkers/checkers.html" target="_blank"><img id = "checkers_icon" src="pictures/checkers_icon.png" height="200" width="200"></a>
     <br>
-    <p id="ttt">Tic-Tac-Toe</p>
+    <p id="checkers">Checkers</p>
+    </div>
     
 
 
@@ -46,7 +48,13 @@
         #ttt{
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
-            right: 10px;;
+            right: 10px;
+        }
+
+        #checkers{
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            right: 10px;
         }
 
         .button{
