@@ -43,34 +43,32 @@ class TicTacToe:
             if (self._turnNum % 2 == 0): # runs if it is X's turn
                 x = int(input('Enter x coordinate for X move: ')) # gets the x coordinate input from the user
                 y = int(input('Enter y coordinate for X move: ')) # gets the y coordinate input from the user
-                if (self._place(x, y)): # 
-                    for i in self._board:
-                        print(f'{i[0]} {i[1]} {i[2]}')
 
-                    if (self._winCheck()):
-                        print('X wins!')
-                        self._turnNum = 10
+                if (self._place(x, y)): # calls place and will return True if successfully places
+                    for i in self._board: # iterates over the board to print
+                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
 
-                else:
-                    print('Invalid coordinates')
-                    pass
+                    if (self._winCheck()): # checks if someone has won
+                        print('X wins!') # prints that X has won
+                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+
+                else: # runs if the place function fails
+                    print('Invalid coordinates') # tells the user the coordinates are invalid
 
             elif (self._turnNum % 2 == 1): # runs if it is O's move
-                x = int(input('Enter x coordinate for O move: '))
-                y = int(input('Enter y coordinate for O move: '))
+                x = int(input('Enter x coordinate for O move: ')) # gets the x coordinate input from the user
+                y = int(input('Enter y coordinate for O move: ')) # gets the y coordinate input from the user
 
-                if (self._place(x, y)):
-                    for i in self._board:
-                        print(f'{i[0]} {i[1]} {i[2]}')
+                if (self._place(x, y)): # calls place and will return True if successfully places
+                    for i in self._board: # iterates over the board to print
+                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
 
-                    if (self._winCheck()):
-                        print('O wins!')
+                    if (self._winCheck()): # checks if someone has won
+                        print('O wins!') # prints that X has won
+                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
 
-                        self._turnNum = 10
+                else: # runs if the place function fails
+                    print('Invalid coordinates') # tells the user the coordinates are invalid
 
-                else:
-                    print('Invalid coordinates')
-                    pass
-
-        if (self._turnNum < 10):
-            print('Draw!')
+        if (self._turnNum < 10): # runs if the board filled with no winner
+            print('Draw!') # prints the draw message
