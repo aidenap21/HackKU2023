@@ -1,4 +1,4 @@
-from checkersPiece import CheckersPiece
+from Checkers.checkersPiece import CheckersPiece
 
 class CheckersBoard:
     def __init__(self):
