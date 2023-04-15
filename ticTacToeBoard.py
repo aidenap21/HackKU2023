@@ -88,6 +88,7 @@ class TicTacToe:
 
                             if (self._turnNum % 2 == 0): # runs if it is X's turn
                                 if (self._place(x, y)): # calls place and will return True if successfully places
+                                    # the following statements translate the pos to x and y so that the image outputs in the correct positon
                                     if (pos[0] < width/3):
                                         x = 20
                                     elif (pos[0] < 2*(width/3)):
@@ -102,8 +103,8 @@ class TicTacToe:
                                     elif (pos[1] < height):
                                         y = 420
 
-                                    screen.blit(x_icon, (x, y))
-                                    pygame.display.flip()
+                                    screen.blit(x_icon, (x, y)) # outputs the placed icon on the game screen
+                                    pygame.display.flip() # flips to display
 
                                     
                                     for i in self._board: # iterates over the board to print
@@ -120,6 +121,7 @@ class TicTacToe:
 
                             elif (self._turnNum % 2 == 1): # runs if it is O's move
                                 if (self._place(x, y)): # calls place and will return True if successfully places
+                                    # the following statements translate the pos to x and y so that the image outputs in the correct positon
                                     if (pos[0] < width/3):
                                         x = 20
                                     elif (pos[0] < 2*(width/3)):
@@ -134,8 +136,8 @@ class TicTacToe:
                                     elif (pos[1] < height):
                                         y = 420
 
-                                    screen.blit(o_icon, (x, y))
-                                    pygame.display.flip()
+                                    screen.blit(o_icon, (x, y)) # outputs the icon on the game screen
+                                    pygame.display.flip() # flips to display
 
 
                                     for i in self._board: # iterates over the board to print
