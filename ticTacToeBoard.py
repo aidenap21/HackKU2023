@@ -1,3 +1,20 @@
+import pygame 
+import sys
+
+pygame.init()
+running = True
+fps = 60
+fpsClock = pygame.time.Clock()
+width, height = 640, 640
+screen = pygame.display.set_mode((width, height))
+
+font = pygame.font.SysFont('Arial', 40)
+
+objects = []
+
+
+
+
 class TicTacToe:
     def __init__(self):
         self._board = [[0,0,0],[0,0,0],[0,0,0]] # initializes board as list of lists to stores moves
@@ -39,36 +56,52 @@ class TicTacToe:
         return False
     
     def run(self):
-        while (self._turnNum < 9): # runs while the board isn't full
-            if (self._turnNum % 2 == 0): # runs if it is X's turn
-                x = int(input('Enter x coordinate for X move: ')) # gets the x coordinate input from the user
-                y = int(input('Enter y coordinate for X move: ')) # gets the y coordinate input from the user
+        while (running):
+            while (self._turnNum < 9): # runs while the board isn't full
+                for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            pos = pygame.mouse.get_pos()
 
-                if (self._place(x, y)): # calls place and will return True if successfully places
-                    for i in self._board: # iterates over the board to print
-                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
+                            if (pos[0] < 213):
+                                x = 0
+                            elif (pos[0] < 426):
+                                x = 1
+                            elif (pos[0] < 640):
+                                x = 2
 
-                    if (self._winCheck()): # checks if someone has won
-                        print('X wins!') # prints that X has won
-                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+                            if (pos[1] < 213):
+                                y = 0
+                            elif (pos[1] < 426):
+                                y = 1
+                            elif (pos[1] < 640):
+                                y = 2
 
-                else: # runs if the place function fails
-                    print('Invalid coordinates') # tells the user the coordinates are invalid
+                            if (self._turnNum % 2 == 0): # runs if it is X's turn
+                                if (self._place(x, y)): # calls place and will return True if successfully places
+                                    for i in self._board: # iterates over the board to print
+                                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
 
-            elif (self._turnNum % 2 == 1): # runs if it is O's move
-                x = int(input('Enter x coordinate for O move: ')) # gets the x coordinate input from the user
-                y = int(input('Enter y coordinate for O move: ')) # gets the y coordinate input from the user
+                                    if (self._winCheck()): # checks if someone has won
+                                        print('X wins!') # prints that X has won
+                                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
 
-                if (self._place(x, y)): # calls place and will return True if successfully places
-                    for i in self._board: # iterates over the board to print
-                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
+                                else: # runs if the place function fails
+                                    print('Invalid coordinates') # tells the user the coordinates are invalid
 
-                    if (self._winCheck()): # checks if someone has won
-                        print('O wins!') # prints that X has won
-                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+                            elif (self._turnNum % 2 == 1): # runs if it is O's move
+                                x = int(input('Enter x coordinate for O move: ')) # gets the x coordinate input from the user
+                                y = int(input('Enter y coordinate for O move: ')) # gets the y coordinate input from the user
 
-                else: # runs if the place function fails
-                    print('Invalid coordinates') # tells the user the coordinates are invalid
+                                if (self._place(x, y)): # calls place and will return True if successfully places
+                                    for i in self._board: # iterates over the board to print
+                                        print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
+
+                                    if (self._winCheck()): # checks if someone has won
+                                        print('O wins!') # prints that X has won
+                                        self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+
+                                else: # runs if the place function fails
+                                    print('Invalid coordinates') # tells the user the coordinates are invalid
 
         if (self._turnNum < 10): # runs if the board filled with no winner
             print('Draw!') # prints the draw message
