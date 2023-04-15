@@ -12,7 +12,9 @@ font = pygame.font.SysFont('Arial', 40)
 
 objects = []
 
+screen = pygame.display.set_mode((640, 640))
 
+background = pygame.image.load('pictures/ticTacToeBoard.jpg')
 
 
 class TicTacToe:
@@ -58,6 +60,7 @@ class TicTacToe:
     
     def run(self):
         while (running):
+            screen.blit(background, (0, 0))
             while (self._turnNum < 9): # runs while the board isn't full
                 for event in pygame.event.get(): # waits for a mouse click event
                         if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
