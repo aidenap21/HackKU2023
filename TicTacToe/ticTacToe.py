@@ -70,7 +70,7 @@ class TicTacToe:
 
             while (self._turnNum < 9): # runs while the board isn't full
                 for event in pygame.event.get(): # waits for a mouse click event
-                        if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                        if event.type == pygame.MOUSEBUTTONDOWN: # runs when the mouse click is lifted
                             pos = pygame.mouse.get_pos() # gets the position of the mouse on click
 
                             # following statements translate mouse position to the x and y coordinates needed for the place function
