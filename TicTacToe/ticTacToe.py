@@ -18,6 +18,8 @@ objects = []
 background = pygame.image.load(os.path.join('assets', 'TicTacToeBoard.jpg'))
 x_icon = pygame.image.load(os.path.join('assets', 'X_icon.png'))
 o_icon = pygame.image.load(os.path.join('assets', 'O_icon.png'))
+x_wins = pygame.image.load(os.path.join('assets', 'X_wins.png'))
+o_wins = pygame.image.load(os.path.join('assets', 'O_wins.png'))
 
 
 
@@ -114,6 +116,8 @@ class TicTacToe:
                                     print('')
 
                                     if (self._winCheck()): # checks if someone has won
+                                        screen.blit(x_wins, (20, 320))
+                                        pygame.display.flip()
                                         print('X wins!') # prints that X has won
                                         self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
                                         #running = False
@@ -147,6 +151,8 @@ class TicTacToe:
                                     print('')
 
                                     if (self._winCheck()): # checks if someone has won
+                                        screen.blit(o_wins, (20, 320))
+                                        pygame.display.flip()
                                         print('O wins!') # prints that X has won
                                         self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
                                         #running = False
@@ -154,7 +160,11 @@ class TicTacToe:
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
                 await asyncio.sleep(0) # allows pygbag to function to run in browser
-            break
+
+            for event in pygame.event.get(): # waits for a mouse click event
+                        if event.type == pygame.MOUSEBUTTONDOWN: # runs when the mouse click is lifted
+                            self._board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']] # reinitializes board as list of lists to stores moves
+                            self._turnNum = 0 # tracks which round the game is on
 
         if (self._turnNum < 10): # runs if the board filled with no winner
             print('Draw!') # prints the draw message
