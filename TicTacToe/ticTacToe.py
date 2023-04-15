@@ -1,3 +1,4 @@
+import asyncio
 import pygame 
 import sys
 import os
@@ -13,9 +14,9 @@ font = pygame.font.SysFont('Arial', 40)
 
 objects = []
 
-background = pygame.image.load(os.path.join('TicTacToe', 'assets', 'TicTacToeBoard.jpg'))
-x_icon = pygame.image.load(os.path.join('TicTacToe', 'assets', 'X_icon.png'))
-o_icon = pygame.image.load(os.path.join('TicTacToe', 'assets', 'O_icon.png'))
+background = pygame.image.load(os.path.join('TicTacToeBoard.jpg'))
+x_icon = pygame.image.load(os.path.join('X_icon.png'))
+o_icon = pygame.image.load(os.path.join('O_icon.png'))
 
 
 class TicTacToe:
@@ -59,7 +60,7 @@ class TicTacToe:
         
         return False
     
-    def run(self):
+    async def run(self):
         while (running):
             screen.fill((255, 255, 255))
             screen.blit(background, (0, 0))
@@ -150,6 +151,7 @@ class TicTacToe:
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
+                await asyncio.sleep(0)
             break
 
         if (self._turnNum < 10): # runs if the board filled with no winner

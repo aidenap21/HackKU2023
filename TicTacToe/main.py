@@ -1,10 +1,8 @@
 import asyncio
 from ticTacToe import TicTacToe
 
-async def main():
-    while True:
-        runTicTacToe = TicTacToe()
-        runTicTacToe.run()
-        await asyncio.sleep(0)
+def main():
+    runTicTacToe = TicTacToe()
+    asyncio.run(runTicTacToe.run())
 
 asyncio.run(main())
