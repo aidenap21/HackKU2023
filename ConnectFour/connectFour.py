@@ -4,14 +4,14 @@ import sys
 import os
 
 
-
+os.chdir("ConnectFour")
 pygame.init()
 width = 639
 height = 553
 surface = pygame.display.set_mode((width,height))
-background = pygame.image.load("connectFourBoard.png")
-red_chip = pygame.image.load("red_chip.png")
-yellow_chip = pygame.image.load("yellow_chip.png")
+background = pygame.image.load(os.path.join("assets", "connectFourBoard.png"))
+red_chip = pygame.image.load(os.path.join("assets", "red_chip.png"))
+yellow_chip = pygame.image.load(os.path.join("assets", "yellow_chip.png"))
 current_position = [29,27]
 
 
@@ -96,7 +96,7 @@ class connectFour:
         if colNum == 6:
             return 551
         
-    def _success(self,)
+    #def _success(self):
 
         
     async def run(self):
@@ -131,7 +131,7 @@ class connectFour:
                                 row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
                                 column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
                                 print([row,column])
-                                if (self._success):
+                                if (self._success()):
                                     print("We have a winner!")
                                 if (self._move-1) % 2 == 0: 
                                     surface.blit(red_chip,(column,row))
