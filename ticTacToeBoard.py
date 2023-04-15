@@ -15,6 +15,8 @@ font = pygame.font.SysFont('Arial', 40)
 objects = []
 
 background = pygame.image.load(os.path.join('pictures', 'TicTacToeBoard.jpg'))
+x_icon = pygame.image.load(os.path.join('pictures', 'X_icon.png'))
+o_icon = pygame.image.load(os.path.join('pictures', 'O_icon.png'))
 
 
 class TicTacToe:
@@ -62,7 +64,7 @@ class TicTacToe:
         while (running):
             screen.fill((255, 255, 255))
             screen.blit(background, (0, 0))
-            pygame.draw.circle(screen, "red", (100,100), 40)
+            pygame.display.flip()
 
             while (self._turnNum < 9): # runs while the board isn't full
                 for event in pygame.event.get(): # waits for a mouse click event
@@ -86,6 +88,24 @@ class TicTacToe:
 
                             if (self._turnNum % 2 == 0): # runs if it is X's turn
                                 if (self._place(x, y)): # calls place and will return True if successfully places
+                                    if (pos[0] < width/3):
+                                        x = 20
+                                    elif (pos[0] < 2*(width/3)):
+                                        x = 220
+                                    elif (pos[0] < width):
+                                        x = 420
+
+                                    if (pos[1] < height/3):
+                                        y = 20
+                                    elif (pos[1] < 2*(height/3)):
+                                        y = 220
+                                    elif (pos[1] < height):
+                                        y = 420
+
+                                    screen.blit(x_icon, (x, y))
+                                    pygame.display.flip()
+
+                                    
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
                                     print('')
@@ -100,6 +120,24 @@ class TicTacToe:
 
                             elif (self._turnNum % 2 == 1): # runs if it is O's move
                                 if (self._place(x, y)): # calls place and will return True if successfully places
+                                    if (pos[0] < width/3):
+                                        x = 20
+                                    elif (pos[0] < 2*(width/3)):
+                                        x = 220
+                                    elif (pos[0] < width):
+                                        x = 420
+
+                                    if (pos[1] < height/3):
+                                        y = 20
+                                    elif (pos[1] < 2*(height/3)):
+                                        y = 220
+                                    elif (pos[1] < height):
+                                        y = 420
+
+                                    screen.blit(o_icon, (x, y))
+                                    pygame.display.flip()
+
+
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
                                     print('')
@@ -111,7 +149,7 @@ class TicTacToe:
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
-            break #yoooo my names aiden im stupid fart poop
+            break
 
         if (self._turnNum < 10): # runs if the board filled with no winner
             print('Draw!') # prints the draw message
