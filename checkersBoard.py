@@ -1,0 +1,3 @@
+from checkersPiece import CheckersPiece
+
+class CheckersBoard
