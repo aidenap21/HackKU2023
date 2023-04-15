@@ -8,6 +8,7 @@
 
     <body id="body">
     <h1 id="welcome">Welcome to Tournament Turkey!</h1>
+    <img id="turkey" src = "pictures/gamingTurkey.png" height = 200 width="200">
     <h3 id="choose">Choose a game to play</h3>
     <br>
 
@@ -24,10 +25,10 @@
         <p id="checkers">Checkers</p>
         </div>
 
-        <div class="flex-child Checkers">
-            <a href="Checkers/build/web/index.html" target="_blank"><img id = "checkers_icon" src="pictures/checkers_icon.png" height="200" width="200"></a>
+        <div class="flex-child Connect Four">
+            <a href="ConnectFour/build/web/index.html" target="_blank"><img id = "connectFour_icon" src="pictures/connectFour_icon.jpg" height="200" width="200"></a>
             <br>
-            <p id="checkers">Checkers</p>
+            <p id="connectFour">Connect Four</p>
         </div>
 
     </div>
@@ -59,6 +60,10 @@
             align-self: center;
         }
 
+        #connectFour_icon {
+            align-self: center;
+        }
+
         #ttt{
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
@@ -67,6 +72,13 @@
         }
 
         #checkers{
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            right: 10px;
+            align-self: center;
+        }
+
+        #connectFour{
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
             right: 10px;
@@ -86,17 +98,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 50px;
+
             
         }
 
         .flex-child {
             flex:;
         }  
-
-        .flex-child:first-child {
-            margin-right: 20px;
-        } 
-
     </style>
 
     </body>
