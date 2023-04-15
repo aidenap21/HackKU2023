@@ -27,6 +27,9 @@ class connectFour:
         else:   # Otherwise it's black's turn
             self.board[row][column] = 2  # Mark with a 2 to signify black placed
 
+    def _whoMoves(self):
+        if self.move % 2 == 0:
+            return 'R'
     def _lineOfFour(self,row,column):
         
 

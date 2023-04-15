@@ -1,4 +1,4 @@
-from TicTacToe.ticTacToeBoard import TicTacToe
+from ticTacToe import TicTacToe
 
 def main():
     runTicTacToe = TicTacToe()

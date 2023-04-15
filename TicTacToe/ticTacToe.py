@@ -14,9 +14,9 @@ font = pygame.font.SysFont('Arial', 40)
 
 objects = []
 
-background = pygame.image.load(os.path.join('pictures', 'TicTacToeBoard.jpg'))
-x_icon = pygame.image.load(os.path.join('pictures', 'X_icon.png'))
-o_icon = pygame.image.load(os.path.join('pictures', 'O_icon.png'))
+background = pygame.image.load(os.path.join('assets', 'TicTacToeBoard.jpg'))
+x_icon = pygame.image.load(os.path.join('assets', 'X_icon.png'))
+o_icon = pygame.image.load(os.path.join('assets', 'O_icon.png'))
 
 
 class TicTacToe:

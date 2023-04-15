@@ -70,6 +70,40 @@ def _validMoves(self,curTurn, x,y):
 
 
     else(curTurn == 1):
+            try:
+                if(self._board[x-1][y+1] == 'O'):
+                    moves[0][0] = x-1
+                    moves[0][1] = y+1
+                elif(self._board[x-1][y+1] == 'R'):  
+                    if(_canJump(x,y,x-3,y+3)):
+                        moves[0][0] = x-3
+                        moves[0][1] = y+3
+                        moves[0][2] = 1 # acts as a flag that the move is a jump in order to call validMoves and move again
+                    else:
+                        raise RuntimeError
+                elif(self._board[x-1][y+1] == 'B'):
+                        raise RuntimeError
+            except:
+                moves[0][0] = -1
+                moves[0][1] = -1
+
+    #---------------------right^-----leftv------------------------------------------------        
+
+            try:
+                if(self._board[x+1][y+1] == 'O'):
+                    moves[0][0] = x+1
+                    moves[0][1] = y+1
+                elif(self._board[x+1][y+1] == 'R'):  
+                    if(_canJump(x,y,x+3,y+3)):
+                        moves[0][0] = x+3
+                        moves[0][1] = y+3
+                    else:
+                        raise RuntimeError
+                elif(self._board[x+1][y+1] == 'B'):
+                        raise RuntimeError
+            except:
+                moves[0][0] = -1
+                moves[0][1] = -1
 
 
 
