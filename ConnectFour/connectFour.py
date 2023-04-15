@@ -130,7 +130,7 @@ class connectFour:
                                 placed_position = self.placePiece(columnToPlace)    # Place the piece, and store the placed row and column in placed_position
                                 row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
                                 column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
-                                print([row,column])
+                                pos = [placed_position[0],placed_position[1]]
                                 if (self._success()):
                                     print("We have a winner!")
                                 if (self._move-1) % 2 == 0: 
