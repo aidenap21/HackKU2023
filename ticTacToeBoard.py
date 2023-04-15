@@ -40,17 +40,17 @@ class TicTacToe:
     def _winCheck(self):
         for i in range(0, 3): # iterates from 0-3 to access every row
             if (self._board[i][0] == self._board[i][1] == self._board[i][2]): # checks the current i value row
-                if (self._board[i][0] == ('X' or 'O')):
+                if (self._board[i][0] == 'X' or self._board[i][0] == 'O'):
                     return True # returns the value of the winner if there are 3 of the same across
-            if (self._board[0][i] == self._board[1][i] == self._board[2][0] == ('X' or 'O')): # checks the current i value column
-                if (self._board[0][i] == ('X' or 'O')):
+            if (self._board[0][i] == self._board[1][i] == self._board[2][0]): # checks the current i value column
+                if (self._board[0][i] == 'X' or self._board[0][i] == 'O'):
                     return True # returns the value of the winner if there are 3 of the same across
             
         if (self._board[0][0] == self._board[1][1] == self._board[2][2]): # checks a diagonal
-            if (self._board[1][1] == ('X' or 'O')):
+            if (self._board[1][1] == 'X' or self._board[1][1] == 'O'):
                 return True # returns the value of the winner if there are 3 of the same diagonal
         if (self._board[0][2] == self._board[1][1] == self._board[2][0]): # checks a diagonal
-            if (self._board[1][1] == ('X' or 'O')):
+            if (self._board[1][1] == 'X' or self._board[1][1] == 'O'):
                 return True # returns the value of the winner if there are 3 of the same diagonal
         
         return False
@@ -58,33 +58,35 @@ class TicTacToe:
     def run(self):
         while (running):
             while (self._turnNum < 9): # runs while the board isn't full
-                for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONUP:
-                            pos = pygame.mouse.get_pos()
-                            print(f'mouse position: ({pos[0]}, {pos[1]})')
-                            
+                for event in pygame.event.get(): # waits for a mouse click event
+                        if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                            pos = pygame.mouse.get_pos() # gets the position of the mouse on click
+
+                            # following statements translate mouse position to the x and y coordinates needed for the place function
                             if (pos[0] < 213):
-                                x = 0
+                                y = 0
                             elif (pos[0] < 426):
-                                x = 1
+                                y = 1
                             elif (pos[0] < 640):
-                                x = 2
+                                y = 2
 
                             if (pos[1] < 213):
-                                y = 0
+                                x = 0
                             elif (pos[1] < 426):
-                                y = 1
+                                x = 1
                             elif (pos[1] < 640):
-                                y = 2
+                                x = 2
 
                             if (self._turnNum % 2 == 0): # runs if it is X's turn
                                 if (self._place(x, y)): # calls place and will return True if successfully places
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
+                                    print('\n')
 
                                     if (self._winCheck()): # checks if someone has won
                                         print('X wins!') # prints that X has won
                                         self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+                                        #running = False
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
@@ -93,13 +95,16 @@ class TicTacToe:
                                 if (self._place(x, y)): # calls place and will return True if successfully places
                                     for i in self._board: # iterates over the board to print
                                         print(f'{i[0]} {i[1]} {i[2]}') # prints the values of the current loop list
+                                    print('\n')
 
                                     if (self._winCheck()): # checks if someone has won
                                         print('O wins!') # prints that X has won
                                         self._turnNum = 10 # sets the turnNum to 10 so that the draw message is not printed
+                                        #running = False
 
                                 else: # runs if the place function fails
                                     print('Invalid coordinates') # tells the user the coordinates are invalid
+            break
 
         if (self._turnNum < 10): # runs if the board filled with no winner
             print('Draw!') # prints the draw message
