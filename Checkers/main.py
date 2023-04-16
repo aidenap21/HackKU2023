@@ -1,7 +1,7 @@
 import asyncio
 from checkersBoard import CheckersBoard
 
-def main():
+async def main():
     myCheck = CheckersBoard()
     asyncio.run(myCheck.run())
 
