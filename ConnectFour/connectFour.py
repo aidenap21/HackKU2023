@@ -109,22 +109,51 @@ class connectFour:
             if (pos[0] > 0 and pos[1] > 0):
                 if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
                     found[4] += 1
-                    _success
-
+                    found = self._success((pos[0] - 1, pos[1] - 1), 1, found)
 
         if (dir == 2 or dir == 9):
+            if (pos[0] > 0):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[1] += 1
+                    found = self._success((pos[0] - 1, pos[1]), 2, found)
 
         if (dir == 3 or dir == 9):
+            if (pos[0] > 0 and pos[1] < 6):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[3] += 1
+                    found = self._success((pos[0] - 1, pos[1] + 1), 3, found)
 
         if (dir == 4 or dir == 9):
+            if (pos[1] < 6):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[2] += 1
+                    found = self._success((pos[0], pos[1] + 1), 4, found)
 
         if (dir == 5 or dir == 9):
+            if (pos[0] < 5 and pos[1] < 6):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[4] += 1
+                    found = self._success((pos[0] + 1, pos[1] + 1), 5, found)
 
         if (dir == 6 or dir == 9):
+            if (pos[0] < 5):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[1] += 1
+                    found = self._success((pos[0] + 1, pos[1]), 6, found)
 
         if (dir == 7 or dir == 9):
+            if (pos[0] < 5 and pos[1] > 0):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[3] += 1
+                    found = self._success((pos[0] + 1, pos[1] - 1), 7, found)
 
         if (dir == 8 or dir == 9):
+            if (pos[1] > 0):
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
+                    found[2] += 1
+                    found = self._success((pos[0], pos[1] - 1), 8, found)
+
+        return found
 
         
     async def run(self):
@@ -159,13 +188,19 @@ class connectFour:
                                 row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
                                 column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
                                 pos = [placed_position[0],placed_position[1]]
-                                if (self._success()):
-                                    print("We have a winner!")
                                 if (self._move-1) % 2 == 0: 
                                     surface.blit(red_chip,(column,row))
                                 else:
                                     surface.blit(yellow_chip,(column,row))
                                 pygame.display.flip()
+                                found = self._success(current_position, 9, [0, 0, 0, 0])
+                                for i in found:
+                                    if (i >= 4):
+                                        if self.board[current_position[0]][current_position[1]] == 1:
+                                            print('Red wins!')
+                                        else:
+                                            print('Yellow wins!')
+                                
 
 
                         
