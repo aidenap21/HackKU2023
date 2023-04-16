@@ -96,7 +96,31 @@ class connectFour:
         if colNum == 6:
             return 551
         
-    #def _success(self):
+    def _success(self, pos, dir, found):
+        '''
+        pos is tuple with coordinates
+        dir is int from 1-9 for direction
+        1 2 3
+        8 X 4
+        7 6 5
+        found is list of found in direction [vertical, horizonal, increasing, decreasing]
+        '''
+        if (dir == 1 or dir == 9):
+            if self.board[pos[0]][pos[1]] == 
+
+        if (dir == 2 or dir == 9):
+
+        if (dir == 3 or dir == 9):
+
+        if (dir == 4 or dir == 9):
+
+        if (dir == 5 or dir == 9):
+
+        if (dir == 6 or dir == 9):
+
+        if (dir == 7 or dir == 9):
+
+        if (dir == 8 or dir == 9):
 
         
     async def run(self):
