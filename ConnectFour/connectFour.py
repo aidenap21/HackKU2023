@@ -174,69 +174,71 @@ class connectFour:
         while (running):
             surface.blit(background,(0,0))
             pygame.display.flip()
+            gameRunning = True
 
-            while (self._move < 42): 
-                # Section for showing the chip at the top of the board
-                if self._move % 2 == 0:
-                    surface.blit(half_red_chip,(current_position[0],current_position[1]))    # Put the chip at that spot and we will update if user presses
-                else:
-                    surface.blit(half_yellow_chip,(current_position[0],current_position[1]))
-                pygame.display.flip()
-                for event in pygame.event.get():    # Waits for an event to occur
-                        if event.type == pygame.KEYDOWN:    # If the user presses a key, we need to check which key it is
-                            if pygame.key.get_pressed()[pygame.K_RIGHT]:    # If the right arrow is pressed
-                                if current_position[0] < 550:
-                                    surface.blit(white_space,(current_position[0],current_position[1]))
-                                    pygame.display.flip()
-                                    current_position[0] += 87  # Update the current position to look at the next column
-                                else:
-                                    surface.blit(white_space,(current_position[0],current_position[1]))
-                                    pygame.display.flip()
-                                    current_position[0] = 28
-
-                            elif pygame.key.get_pressed()[pygame.K_LEFT]:   # If the left arrow is pressed
-                                if current_position[0] > 28:
-                                    surface.blit(white_space,(current_position[0],current_position[1]))
-                                    pygame.display.flip()
-                                    current_position[0] -= 87 # Update the current position to look at the previous column
-                                else:
-                                    surface.blit(white_space,(current_position[0],current_position[1]))
-                                    pygame.display.flip()
-                                    current_position[0] = 550
-
-                            elif pygame.key.get_pressed()[pygame.K_SPACE]:
-                                surface.blit(white_space,(current_position[0],current_position[1]))
-                                pygame.display.flip()
-                                columnToPlace = self._pixel_to_column(current_position[0])  # Find the column to place that chip in 
-                                
-                                placed_position = self.placePiece(columnToPlace)    # Place the piece, and store the placed row and column in placed_position
-                                
-                                if placed_position is False:
-                                    pass
-
-                                else:
-                                
-                                    row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
-                                    column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
-                                
-                                
-                                    if (self._move-1) % 2 == 0: 
-                                        surface.blit(red_chip,(column,row))
+            while(gameRunning):
+                while (self._move < 42): 
+                    # Section for showing the chip at the top of the board
+                    if self._move % 2 == 0:
+                        surface.blit(half_red_chip,(current_position[0],current_position[1]))    # Put the chip at that spot and we will update if user presses
+                    else:
+                        surface.blit(half_yellow_chip,(current_position[0],current_position[1]))
+                    pygame.display.flip()
+                    for event in pygame.event.get():    # Waits for an event to occur
+                            if event.type == pygame.KEYDOWN:    # If the user presses a key, we need to check which key it is
+                                if pygame.key.get_pressed()[pygame.K_RIGHT]:    # If the right arrow is pressed
+                                    if current_position[0] < 550:
+                                        surface.blit(white_space,(current_position[0],current_position[1]))
+                                        pygame.display.flip()
+                                        current_position[0] += 87  # Update the current position to look at the next column
                                     else:
-                                        surface.blit(yellow_chip,(column,row))
+                                        surface.blit(white_space,(current_position[0],current_position[1]))
+                                        pygame.display.flip()
+                                        current_position[0] = 28
+
+                                elif pygame.key.get_pressed()[pygame.K_LEFT]:   # If the left arrow is pressed
+                                    if current_position[0] > 28:
+                                        surface.blit(white_space,(current_position[0],current_position[1]))
+                                        pygame.display.flip()
+                                        current_position[0] -= 87 # Update the current position to look at the previous column
+                                    else:
+                                        surface.blit(white_space,(current_position[0],current_position[1]))
+                                        pygame.display.flip()
+                                        current_position[0] = 550
+
+                                elif pygame.key.get_pressed()[pygame.K_SPACE]:
+                                    surface.blit(white_space,(current_position[0],current_position[1]))
                                     pygame.display.flip()
-                                    found = self._success(placed_position, 9, [0, 0, 0, 0])
-                                    for i in found:
-                                        if (i >= 3):
-                                            if self.board[placed_position[0]][placed_position[1]] == 1:
-                                                
-                                                print('Red wins!')
-                                            else:
-                                                print('Yellow wins!')
-                                            self._move = 42 # ends the while loop because the game is completed
-                                
-                            for line in self.board:
-                                print(line)
-                            print(self._move)
+                                    columnToPlace = self._pixel_to_column(current_position[0])  # Find the column to place that chip in 
+                                    
+                                    placed_position = self.placePiece(columnToPlace)    # Place the piece, and store the placed row and column in placed_position
+                                    
+                                    if placed_position is False:
+                                        pass
+
+                                    else:
+                                    
+                                        row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
+                                        column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
+                                    
+                                    
+                                        if (self._move-1) % 2 == 0: 
+                                            surface.blit(red_chip,(column,row))
+                                        else:
+                                            surface.blit(yellow_chip,(column,row))
+                                        pygame.display.flip()
+                                        found = self._success(placed_position, 9, [0, 0, 0, 0])
+                                        for i in found:
+                                            if (i >= 3):
+                                                if self.board[placed_position[0]][placed_position[1]] == 1:
+                                                    
+                                                    print('Red wins!')
+                                                else:
+                                                    print('Yellow wins!')
+                                                self._move = 42 # ends the while loop because the game is completed
+                                    
+                                for line in self.board:
+                                    print(line)
+                                print(self._move)
                             
             await asyncio.sleep(0)
