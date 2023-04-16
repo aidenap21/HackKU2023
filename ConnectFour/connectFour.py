@@ -29,16 +29,26 @@ class connectFour:
                       [0,0,0,0,0,0,0]]
         
     def placePiece(self,column):   # The act of "falling down the board."
+        empty_row = True
+        top_filled = False
         for row in range(6):  # Iterate through the board
             if self.board[row][column] != 0 :  # If there is a piece somewhere down the column, place the piece above it
-                print("Piece at: " + str(row) + ',' + str(column))
-                self._mark(row-1,column)    # Mark the spot right above it 
-                self._move += 1
-                return [row-1,column]
+                empty_row = False
+                if row == 0:
+                    top_filled = True
+                    break
+                else:
+                    print("Piece at: " + str(row) + ',' + str(column))
+                    self._mark(row-1,column)    # Mark the spot right above it 
+                    self._move += 1
+                    return [row-1,column]
             
-        self._mark(5,column)
-        self._move += 1
-        return [5,column]
+        if empty_row:
+            self._mark(5,column)
+            self._move += 1
+            return [5,column]
+        if top_filled:
+            return False
             
 
     def _mark(self,row,column): # Used to mark the place with either a red piece or yellow
@@ -49,52 +59,52 @@ class connectFour:
 
         
     def _pixel_to_column(self,pixelNum):
-        if pixelNum == 29:
+        if pixelNum == 28:
             return 0
-        if pixelNum == 116:
+        if pixelNum == 115:
             return 1
-        if pixelNum == 203:
+        if pixelNum == 202:
             return 2
-        if pixelNum == 290:
+        if pixelNum == 289:
             return 3
-        if pixelNum == 377:
+        if pixelNum == 376:
             return 4
-        if pixelNum == 464:
+        if pixelNum == 463:
             return 5
-        if pixelNum == 551:
+        if pixelNum == 550:
             return 6
         
     def _row_to_pixel(self,rowNum):
         if rowNum == 0:
-            return 27
+            return 69
         if rowNum == 1:
-            return 115
+            return 157
         if rowNum == 2:
-            return 202
+            return 244
         if rowNum == 3:
-            return 289
+            return 331
         if rowNum == 4:
-            return 376
+            return 418
         if rowNum == 5:
-            return 463
+            return 505
         
-
+  
 
     def _col_to_pixel(self,colNum):
         if colNum == 0:
-            return 29
+            return 28
         if colNum == 1:
-            return 116
+            return 115
         if colNum == 2:
-            return 203
+            return 202
         if colNum == 3:
-            return 290
+            return 289
         if colNum == 4:
-            return 377
+            return 376
         if colNum == 5:
-            return 464
+            return 463
         if colNum == 6:
-            return 551
+            return 550
         
     def _success(self, pos, dir, found):
         '''

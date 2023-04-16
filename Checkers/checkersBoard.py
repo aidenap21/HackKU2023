@@ -17,6 +17,9 @@ screen = pygame.display.set_mode((width, height))
 
 font = pygame.font.SysFont('Arial', 40)
 
+#os.chdir('Checkers')
+background = pygame.image.load(os.path.join('assets', 'checkersBoard.png'))
+
 class CheckersBoard:
     def __init__(self):
         self._turn = 0
@@ -38,11 +41,13 @@ class CheckersBoard:
 
         self._printGrid()
         while (running): #Start the game
+            screen.fill((255, 255, 255))
+            screen.blit(background, (0, 0)) # outputs the background which is the tic tac toe board
+            pygame.display.flip() # flips to the screen
+
             while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0 or self._rCanMove == False or self._bCanMove): #Check for end conditions
-                x = 1
-                y = 0
-                newX = 1
-                newY = 0
+                x = self._coordsSelected()[0]
+                y = self._coordsSelected()[1]
 
                 while((self._turn == 0 and self._board[x][y] != 'R') or (self._turn == 1 and self._board[x][y] != 'B')):
                     for event in pygame.event.get():
@@ -68,22 +73,23 @@ class CheckersBoard:
                     jumpedLocationRight = (0,0,0)
                 
                 
-                leftMove = (moveInfo[0][0], moveInfo[0][1]) #Get the selected locations' left move 
-                print(f'the left move at {leftMove[0]},{leftMove[1]}')
-                                
+                leftMove = (moveInfo[0][0], moveInfo[0][1]) #Get the selected locations' left move             
                 rightMove = (moveInfo[1][0], moveInfo[1][1]) #Get the selected locations' right move location
-                print(f'the right move at {rightMove[0]},{rightMove[1]}')
 
                 
                 print("select location to move to")
-                if(leftMove[0] != -1 and leftMove[1] != -1 and rightMove[0] != -1 and rightMove[1] != -1):
+                if((leftMove[0] != -1 and leftMove[1] != -1) or (rightMove[0] != -1 and rightMove[1] != -1)):
+                    print("has at least 1 move available")
+
+                    newX = self._coordsSelected()[0]
+                    newY = self._coordsSelected()[1]
 
                     while((newX != leftMove[0] and newY != leftMove[1]) or (newX != rightMove[0] and newY != rightMove[1])):
                         for event in pygame.event.get():
                             if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
                                 newX = self._coordsSelected()[0]
                                 newY = self._coordsSelected()[1]
-                                print(f'tried newX, newY = {newX},{newY}')
+                                print(f'tried newX, newY = {newX},{newY} can only go {leftMove[0]},{leftMove[1]} or {rightMove[0]},{rightMove[1]}')
                     
                     print(f'{newX},{newY} worked')
                     selectedCoord = [newX, newY]
@@ -172,6 +178,7 @@ class CheckersBoard:
                     if(self._board[x+1][y+1] == 'O'):
                         moves[1][0] = x+1
                         moves[1][1] = y+1
+                        print(f'right move @ {moves[1][0]},{moves[1][1]}')
                     elif((self._board[x+1][y+1] == 'R') and (self._board[x+2][y+2] == 'O')):  
                         if(self._canJump(x,y,x+2,y+2)):
                             moves[1][0] = x+2
@@ -180,6 +187,7 @@ class CheckersBoard:
                             moves[4][0] = 1
                             moves[4][1] = x+1
                             moves[4][2] = y+1
+                            print(f'right move @ {moves[1][0]},{moves[1][1]}')
                         else:
                             raise RuntimeError
                     elif(self._board[x+1][y+1] == 'B'):
@@ -187,12 +195,14 @@ class CheckersBoard:
                 except:
                     moves[1][0] = -1
                     moves[1][1] = -1
+                    print(f'right move @ {moves[1][0]},{moves[1][1]}')
 
         #---------------------right^-----leftv------------------------------------------------        
                 try:
                     if(self._board[x+1][y-1] == 'O'):
                         moves[0][0] = x+1
                         moves[0][1] = y-1
+                        print(f'left move @ {moves[0][0]},{moves[0][1]}')
                     elif((self._board[x+1][y-1] == 'R') and (self._board[x+2][y-2] == 'O')):  
                         if(self._canJump(x,y,x+2,y-2)):
                             moves[0][0] = x+2
@@ -201,6 +211,7 @@ class CheckersBoard:
                             moves[3][0] = 1
                             moves[3][1] = x+1
                             moves[3][2] = y-1
+                            print(f'left move @ {moves[0][0]},{moves[0][1]}')
                         else:
                             raise RuntimeError
                     elif(self._board[x+1][y-1] == 'B'):
@@ -208,6 +219,7 @@ class CheckersBoard:
                 except:
                     moves[0][0] = -1
                     moves[0][1] = -1
+                    print(f'left move @ {moves[0][0]},{moves[0][1]}')
         return moves
     
 
