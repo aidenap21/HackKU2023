@@ -17,12 +17,13 @@ screen = pygame.display.set_mode((width, height))
 
 font = pygame.font.SysFont('Arial', 40)
 
-#os.chdir('Checkers')
+os.chdir('Checkers')
 background = pygame.image.load(os.path.join('assets', 'checkersBoard.png'))
 red_piece = pygame.image.load(os.path.join('assets', 'red_piece.png'))
 black_piece = pygame.image.load(os.path.join('assets', 'black_piece.png'))
 red_king = pygame.image.load(os.path.join('assets', 'red_king.png'))
 black_king = pygame.image.load(os.path.join('assets', 'black_king.png'))
+square = pygame.image.load(os.path.join('assets', 'square.png'))
 
 class CheckersBoard:
     def __init__(self):
@@ -48,6 +49,7 @@ class CheckersBoard:
             screen.fill((255, 255, 255))
             screen.blit(background, (0, 0)) # outputs the background which is the tic tac toe board
             pygame.display.flip() # flips to the screen
+            self._updateGrid()
 
             while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0 or self._rCanMove == False or self._bCanMove): #Check for end conditions
                 x = self._coordsSelected()[0]
@@ -262,10 +264,8 @@ class CheckersBoard:
         print(self._turn)
 
         self._updateLocations()
-        
-
-
-
+        self._updateGrid()
+    
 
     def _coordsSelected(self): #Get the users mouse input to find which tile they selected 
 
@@ -338,9 +338,32 @@ class CheckersBoard:
             for j in range(8):
                 print(self._board[i][j],end='')
             print('')
-        
 
-        
+    def _updateGrid(self):
+        for x in range(8): # iterates through the lists
+            for y in range(8): # iterates through the indices of the lists
+                if (self._board[x][y] == 'B'): # runs if the current piece is black
+                    screen.blit(black_piece, (y * 80, x * 80)) # places the piece
+                    pygame.display.flip() 
+
+                elif (self._board[x][y] == 'R'): # runs if the current piece is red
+                    screen.blit(red_piece, (y * 80, x * 80)) # places the piece
+                    pygame.display.flip()
+
+                elif (self._board[x][y] == 'K'): # runs if the current piece is red king
+                    screen.blit(red_king, (y * 80, x * 80)) # places the piece
+                    pygame.display.flip()
+
+                elif (self._board[x][y] == 'Q'): # runs if the current piece is black king
+                    screen.blit(black_king, (y * 80, x * 80)) # places the piece
+                    pygame.display.flip()
+
+                elif (self._board[x][y] == 'O'): # runs if the current piece is open
+                    screen.blit(square, (y * 80, x * 80)) # places the piece
+                    pygame.display.flip()
+
+
+
 
 
 
