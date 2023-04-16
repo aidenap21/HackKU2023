@@ -19,6 +19,10 @@ font = pygame.font.SysFont('Arial', 40)
 
 #os.chdir('Checkers')
 background = pygame.image.load(os.path.join('assets', 'checkersBoard.png'))
+red_piece = pygame.image.load(os.path.join('assets', 'red_piece.png'))
+black_piece = pygame.image.load(os.path.join('assets', 'black_piece.png'))
+red_king = pygame.image.load(os.path.join('assets', 'red_king.png'))
+black_king = pygame.image.load(os.path.join('assets', 'black_king.png'))
 
 class CheckersBoard:
     def __init__(self):

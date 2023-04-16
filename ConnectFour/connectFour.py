@@ -9,9 +9,12 @@ pygame.init()
 width = 639
 height = 553
 surface = pygame.display.set_mode((width,height))
-background = pygame.image.load(os.path.join("assets", "connectFourBoard.png"))
+background = pygame.image.load(os.path.join("assets", "modified_connectFourBoard.png"))
 red_chip = pygame.image.load(os.path.join("assets", "red_chip.png"))
 yellow_chip = pygame.image.load(os.path.join("assets", "yellow_chip.png"))
+half_red_chip = pygame.image.load(os.path.join("assets", "half_red_chip.png"))
+half_yellow_chip = pygame.image.load(os.path.join("assets", "half_yellow_chip.png"))
+white_space = pygame.image.load("white_space.png")
 current_position = [29,27]
 
 
