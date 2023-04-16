@@ -410,9 +410,3 @@ class CheckersBoard:
                 elif (self._board[x][y] == 'O'): # runs if the current piece is open
                     screen.blit(square, (y * 80, x * 80)) # places the piece
                     pygame.display.flip()
-        
-
-        
-
-
-
