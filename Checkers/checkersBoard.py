@@ -44,7 +44,6 @@ class CheckersBoard:
         self._board.append(['R', '-', 'R', '-', 'R', '-', 'R', '-'])
 
     async def run(self): #Initial run function to be called to start the process
-        self._printGrid()
         while (running): #Start the game
             screen.fill((255, 255, 255))
             screen.blit(background, (0, 0)) # outputs the background which is the tic tac toe board
@@ -53,6 +52,7 @@ class CheckersBoard:
             gameRunning = True
 
             while(gameRunning):
+                #await asyncio.sleep(0)
                 while (self._rPiecesLeft != 0 and self._bPiecesLeft != 0 and (self._rCanMove or self._bCanMove)): #Check for end conditions
                     for event in pygame.event.get():
                             if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
@@ -72,8 +72,6 @@ class CheckersBoard:
                                             
                                 print(f'{x},{y}')
                                 moveInfo = self._select(x,y)
-
-                                #curLocation = [moveInfo[2][0], moveInfo[2][1]] #Get the current selected location's coords
 
                                 self._updateLocations()
 
@@ -106,7 +104,7 @@ class CheckersBoard:
                                                     newX = self._coordsSelected()[0]
                                                     newY = self._coordsSelected()[1]
                                                     print(f'tried newX, newY = {newX},{newY} can only go {leftMove[0]},{leftMove[1]} or {rightMove[0]},{rightMove[1]}')
-                                        await asyncio.sleep(0)
+                                            await asyncio.sleep(0)
                                         
                                         print(f'{newX},{newY} worked')
                                         selectedCoord = [newX, newY]
@@ -165,7 +163,7 @@ class CheckersBoard:
                                                     newX = self._coordsSelected()[0]
                                                     newY = self._coordsSelected()[1]
                                                     print(f'tried newX, newY = {newX},{newY} can only go {leftMove[0]},{leftMove[1]} or {rightMove[0]},{rightMove[1]} or {leftBackMove[0]},{leftBackMove[1]} or {rightBackMove[0]},{rightBackMove[1]}')
-                                        await asyncio.sleep(0)
+                                            await asyncio.sleep(0)
                                         
                                         print(f'{newX},{newY} worked')
                                         selectedCoord = [newX, newY]
@@ -193,6 +191,8 @@ class CheckersBoard:
                                         print("cannot move piece at all")
 
                     await asyncio.sleep(0)
+
+                #await asyncio.sleep(0)
 
                 if (self._turn == 0):
                     print('Red wins!')
