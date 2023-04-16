@@ -249,7 +249,6 @@ class connectFour:
                                     print(line)
                                 print(self._move)
                     await asyncio.sleep(0)
-                await asyncio.sleep(0)
 
                 if (self._move < 43): # runs if the board filled with no winner
                     surface.blit(draw, (19.5, 149)) # outputs Draw screen message
@@ -267,4 +266,5 @@ class connectFour:
                                       [0,0,0,0,0,0,0],
                                       [0,0,0,0,0,0,0]]
                         gameRunning = False # sets the value to false to reset the game loop and reset the board
-        await asyncio.sleep(0)
+                await asyncio.sleep(0)
+            await asyncio.sleep(0)
