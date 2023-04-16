@@ -4,7 +4,7 @@ import sys
 import os
 
 
-# os.chdir("ConnectFour") # uncomment if running on system
+os.chdir("ConnectFour") # uncomment if running on system
 pygame.init()
 width = 639
 height = 553
@@ -105,55 +105,56 @@ class connectFour:
         7 6 5
         found is list of found in direction [vertical, horizonal, increasing, decreasing]
         '''
-        if (dir == 1 or dir == 9):
-            if (pos[0] > 0 and pos[1] > 0):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[4] += 1
-                    found = self._success((pos[0] - 1, pos[1] - 1), 1, found)
+        print(f'CURRENT POSITION: ({pos[0]}, {pos[1]})')
+        if (dir == 1 or dir == 9): # runs if moving in 1 direction or 9 which is all directions
+            if (pos[0] > 0 and pos[1] > 0): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[3] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] - 1, pos[1] - 1), 1, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 2 or dir == 9):
-            if (pos[0] > 0):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[1] += 1
-                    found = self._success((pos[0] - 1, pos[1]), 2, found)
+        if (dir == 2 or dir == 9): # runs if moving in 2 direction or 9 which is all directions
+            if (pos[0] > 0): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[0] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] - 1, pos[1]), 2, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 3 or dir == 9):
-            if (pos[0] > 0 and pos[1] < 6):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[3] += 1
-                    found = self._success((pos[0] - 1, pos[1] + 1), 3, found)
+        if (dir == 3 or dir == 9): # runs if moving in 3 direction or 9 which is all directions
+            if (pos[0] > 0 and pos[1] < 6): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[2] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] - 1, pos[1] + 1), 3, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 4 or dir == 9):
-            if (pos[1] < 6):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[2] += 1
-                    found = self._success((pos[0], pos[1] + 1), 4, found)
+        if (dir == 4 or dir == 9): # runs if moving in 4 direction or 9 which is all directions
+            if (pos[1] < 6): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[1] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0], pos[1] + 1), 4, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 5 or dir == 9):
-            if (pos[0] < 5 and pos[1] < 6):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[4] += 1
-                    found = self._success((pos[0] + 1, pos[1] + 1), 5, found)
+        if (dir == 5 or dir == 9): # runs if moving in 5 direction or 9 which is all directions
+            if (pos[0] < 5 and pos[1] < 6): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] + 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[3] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] + 1, pos[1] + 1), 5, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 6 or dir == 9):
-            if (pos[0] < 5):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[1] += 1
-                    found = self._success((pos[0] + 1, pos[1]), 6, found)
+        if (dir == 6 or dir == 9): # runs if moving in 6 direction or 9 which is all directions
+            if (pos[0] < 5): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1]]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[0] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] + 1, pos[1]), 6, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 7 or dir == 9):
-            if (pos[0] < 5 and pos[1] > 0):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[3] += 1
-                    found = self._success((pos[0] + 1, pos[1] - 1), 7, found)
+        if (dir == 7 or dir == 9): # runs if moving in 7 direction or 9 which is all directions
+            if (pos[0] < 5 and pos[1] > 0): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0] + 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[2] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0] + 1, pos[1] - 1), 7, found) # recurses in the direction and resets the found list to check
 
-        if (dir == 8 or dir == 9):
-            if (pos[1] > 0):
-                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    found[2] += 1
-                    found = self._success((pos[0], pos[1] - 1), 8, found)
+        if (dir == 8 or dir == 9): # runs if moving in 8 direction or 9 which is all directions
+            if (pos[1] > 0): # ensures the pos is able to move in that direction and not out of bounds
+                if (self.board[pos[0]][pos[1]] == self.board[pos[0]][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0): # compares the pos to the value in that direction
+                    found[1] += 1 # increases the index of found in the checked direction
+                    found = self._success((pos[0], pos[1] - 1), 8, found) # recurses in the direction and resets the found list to check
 
-        return found
+        return found # returns the list of found direction
 
         
     async def run(self):
@@ -187,23 +188,21 @@ class connectFour:
                                 placed_position = self.placePiece(columnToPlace)    # Place the piece, and store the placed row and column in placed_position
                                 row = self._row_to_pixel(placed_position[0])    # Turn the placed row into a pixel number
                                 column = self._col_to_pixel(placed_position[1]) # Turn the placed column into a pixel number
-                                pos = [placed_position[0],placed_position[1]]
                                 if (self._move-1) % 2 == 0: 
                                     surface.blit(red_chip,(column,row))
                                 else:
                                     surface.blit(yellow_chip,(column,row))
                                 pygame.display.flip()
-                                found = self._success(current_position, 9, [0, 0, 0, 0])
+                                found = self._success(placed_position, 9, [0, 0, 0, 0])
                                 for i in found:
-                                    if (i >= 4):
-                                        if self.board[current_position[0]][current_position[1]] == 1:
+                                    if (i >= 3):
+                                        if self.board[placed_position[0]][placed_position[1]] == 1:
+                                            
                                             print('Red wins!')
                                         else:
                                             print('Yellow wins!')
-                                
-
-
-                        
+                                        self._move = 42 # ends the while loop because the game is completed
+                            
                             for line in self.board:
                                 print(line)
                             print(self._move)

@@ -39,49 +39,72 @@ class CheckersBoard:
         self._printGrid()
         while (running): #Start the game
             while (self._rPiecesLeft != 0 or self._bPiecesLeft != 0 or self._rCanMove == False or self._bCanMove): #Check for end conditions
-                x = 3
+                x = 1
                 y = 0
-                
-                curLocation = [self._select(x, y)[2][0], self._select(x, y)[2][1]] #Get the current selected location's coords
+                newX = 1
+                newY = 0
+
+                while((self._turn == 0 and self._board[x][y] != 'R') or (self._turn == 1 and self._board[x][y] != 'B')):
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                            x = self._coordsSelected()[0]
+                            y = self._coordsSelected()[1]
+                            print(f'{x},{y} = {self._board[x][y]}')
+                            
+                print(f'{x},{y}')
+                moveInfo = self._select(x,y)
+
+                curLocation = [moveInfo[2][0], moveInfo[2][1]] #Get the current selected location's coords
 
                 self._updateLocations()
 
-                if(self._select(x,y)[3][0] == 1):
-                    jumpedLocationLeft = (self._select(x, y)[3][0], self._select(x, y)[3][1], self._select(x, y)[3][2])
-                    
-
-                if(self._select(x,y)[4][0] == 1):
-                    jumpedLocationRight = (self._select(x, y)[4][0], self._select(x, y)[4][1], self._select(x, y)[4][2])
-
-                leftMove = (self._select(x, y)[0][0], self._select(x, y)[0][1], self._select(x, y)[0][2]) #Get the selected locations' left move 
-                print(f'the left move at {self._select(x, y)[0][0]},{self._select(x, y)[0][1]} can {self._select(x, y)[0][2]}')
+                if(moveInfo[3][0] == 1):
+                    jumpedLocationLeft = (moveInfo[3][0], moveInfo[3][1],moveInfo[3][2])
+                else:
+                    jumpedLocationLeft = (0,0,0)
+                if(moveInfo[4][0] == 1):
+                    jumpedLocationRight = (moveInfo[4][0], moveInfo[4][1], moveInfo[4][2])
+                else:
+                    jumpedLocationRight = (0,0,0)
+                
+                
+                leftMove = (moveInfo[0][0], moveInfo[0][1]) #Get the selected locations' left move 
+                print(f'the left move at {leftMove[0]},{leftMove[1]}')
                                 
-                rightMove = (self._select(x, y)[1][0], self._select(x, y)[1][1], self._select(x, y)[1][2]) #Get the selected locations' right move location
-                print(f'the right move at {self._select(x, y)[1][0]},{self._select(x, y)[1][1]} can {self._select(x, y)[1][2]}')
-
-                selectedCoord = self._coordsSelected() #Get the user's mouse input 
-                print(f'User selected {selectedCoord[0]},{selectedCoord[1]}')
+                rightMove = (moveInfo[1][0], moveInfo[1][1]) #Get the selected locations' right move location
+                print(f'the right move at {rightMove[0]},{rightMove[1]}')
 
                 
-                if (selectedCoord[0] == leftMove[0] and selectedCoord[1] == leftMove[1]):
-                    self._move(curLocation, selectedCoord, jumpedLocationLeft)
+                print("select location to move to")
+                if(leftMove[0] != -1 and leftMove[1] != -1 and rightMove[0] != -1 and rightMove[1] != -1):
+
+                    while((newX != leftMove[0] and newY != leftMove[1]) or (newX != rightMove[0] and newY != rightMove[1])):
+                        for event in pygame.event.get():
+                            if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
+                                newX = self._coordsSelected()[0]
+                                newY = self._coordsSelected()[1]
+                                print(f'tried newX, newY = {newX},{newY}')
                     
-                elif(selectedCoord[0] == rightMove[0] and selectedCoord[1] == rightMove[1]):
-                    self._move(curLocation, selectedCoord, jumpedLocationRight)
+                    print(f'{newX},{newY} worked')
+                    selectedCoord = [newX, newY]
+                    print(f'User selected {selectedCoord[0]},{selectedCoord[1]}')
 
-                self._printGrid()
-                
+                    if (selectedCoord[0] == leftMove[0] and selectedCoord[1] == leftMove[1]):
+                        self._move(curLocation, selectedCoord, jumpedLocationLeft)
+                        
+                    elif(selectedCoord[0] == rightMove[0] and selectedCoord[1] == rightMove[1]):
+                        self._move(curLocation, selectedCoord, jumpedLocationRight)
+
+                    self._printGrid()
+                else:
+                    print("cannot move piece at all")
+
             await asyncio.sleep(0)
+
+            
         
     def _select(self, x, y):
-        while((self._turn == 0 and self._board[x][y] != 'R') or (self._turn == 1 and self._board[x][y] == 'B')):
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP: # runs when the mouse click is lifted
-                    x = self._coordsSelected()[0]
-                    y = self._coordsSelected()[1]
-                    print(f'{x},{y} = {self._board[x][y]}')
-
-
+        print(f'recieved {x},{y} in select on turn {self._turn}')
         if (self._turn == 0 and self._board[x][y] == 'R'):
             return self._validMoves(x,y)
         elif(self._turn == 1 and self._board[x][y] == 'B'):
@@ -89,7 +112,7 @@ class CheckersBoard:
 
 
     def _validMoves(self, x,y):
-        print(f'validMoves was passed {x},{y} on {self._turn}s turn')
+        print(f'recieved {x},{y} in validMove')
         moves = [[0, 0],[0, 0],[x,y],[0,0,0],[0,0,0]] #[0] = left move, [1] = right move, [2] = original position, [3] =left jump, [4] = right jump
 
         print(f'Current Selection: {moves[2][0]},{moves[2][1]}')
@@ -216,15 +239,14 @@ class CheckersBoard:
                 rightMove = (self._select(new[0], new[1])[1][0], self._select(new[0], new[1])[1][1], self._select(new[0], new[1])[1][2]) #Get the selected locations' right move
                 self._move(new, rightMove, jumpedLocation)
 
-
-        self._updateLocations(self._rPiecesLeft) #Update the locations of all the red pieces
-        self._updateLocations(self._bPiecesLeft) #Update the locations of all the black pieces
         if (self._turn == 1):
             self._turn = 0
         elif (self._turn == 0):
             self._turn = 1
+        print(self._turn)
 
-
+        self._updateLocations()
+        
 
 
 
