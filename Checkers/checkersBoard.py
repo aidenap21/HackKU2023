@@ -44,7 +44,6 @@ class CheckersBoard:
         self._board.append(['R', '-', 'R', '-', 'R', '-', 'R', '-'])
 
     async def run(self): #Initial run function to be called to start the process
-
         self._printGrid()
         while (running): #Start the game
             screen.fill((255, 255, 255))
@@ -73,8 +72,7 @@ class CheckersBoard:
                                             x = self._coordsSelected()[0]
                                             y = self._coordsSelected()[1]
                                             print(f'{x},{y} = {self._board[x][y]}')
-
-
+                                    await asyncio.sleep(0)
                                             
                                 print(f'{x},{y}')
                                 moveInfo = self._select(x,y)
@@ -110,6 +108,7 @@ class CheckersBoard:
                                                 newX = self._coordsSelected()[0]
                                                 newY = self._coordsSelected()[1]
                                                 print(f'tried newX, newY = {newX},{newY} can only go {leftMove[0]},{leftMove[1]} or {rightMove[0]},{rightMove[1]}')
+                                    await asyncio.sleep(0)
                                     
                                     print(f'{newX},{newY} worked')
                                     selectedCoord = [newX, newY]
