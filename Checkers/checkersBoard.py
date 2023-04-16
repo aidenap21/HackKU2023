@@ -23,8 +23,8 @@ black_piece = pygame.image.load(os.path.join('assets', 'black_piece.png'))
 red_king = pygame.image.load(os.path.join('assets', 'red_king.png'))
 black_king = pygame.image.load(os.path.join('assets', 'black_king.png'))
 square = pygame.image.load(os.path.join('assets', 'square.png'))
-red_wins = pygame.image.load(os.path.join('assets', 'red_wins.png'))
-black_wins = pygame.image.load(os.path.join('assets', 'black_wins.png'))
+red_wins = pygame.image.load(os.path.join('assets', 'Red_wins.png'))
+black_wins = pygame.image.load(os.path.join('assets', 'Black_wins.png'))
 
 class CheckersBoard:
     def __init__(self):
