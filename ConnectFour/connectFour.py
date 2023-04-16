@@ -108,7 +108,8 @@ class connectFour:
         if (dir == 1 or dir == 9):
             if (pos[0] > 0 and pos[1] > 0):
                 if (self.board[pos[0]][pos[1]] == self.board[pos[0] - 1][pos[1] - 1]) and (self.board[pos[0]][pos[1]] != 0):
-                    
+                    found[4] += 1
+                    _success
 
 
         if (dir == 2 or dir == 9):
