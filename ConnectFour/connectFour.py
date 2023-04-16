@@ -4,7 +4,7 @@ import sys
 import os
 
 
-os.chdir("ConnectFour") # uncomment if running on system
+# os.chdir("ConnectFour") # uncomment if running on system
 pygame.init()
 width = 639
 height = 595
@@ -15,6 +15,10 @@ yellow_chip = pygame.image.load(os.path.join("assets", "yellow_chip.png"))
 half_red_chip = pygame.image.load(os.path.join("assets", "half_red_chip.png"))
 half_yellow_chip = pygame.image.load(os.path.join("assets", "half_yellow_chip.jpg"))
 white_space = pygame.image.load(os.path.join("assets", "white_space.png"))
+red_wins = pygame.image.load(os.path.join("assets", "Red_wins.png"))
+yellow_wins = pygame.image.load(os.path.join("assets", "Yellow_wins.png"))
+draw = pygame.image.load(os.path.join("assets", "Draw.png"))
+
 current_position = [28,13]
 
 
@@ -231,14 +235,35 @@ class connectFour:
                                         for i in found:
                                             if (i >= 3):
                                                 if self.board[placed_position[0]][placed_position[1]] == 1:
-                                                    
                                                     print('Red wins!')
+                                                    surface.blit(red_wins, (19.5, 149)) # outputs Draw screen message
+                                                    pygame.display.flip() # flips to the display
                                                 else:
                                                     print('Yellow wins!')
-                                                self._move = 42 # ends the while loop because the game is completed
+                                                    surface.blit(yellow_wins, (19.5, 149)) # outputs Draw screen message
+                                                    pygame.display.flip() # flips to the display
+                                                
+                                                self._move = 43 # ends the while loop because the game is completed
                                     
                                 for line in self.board:
                                     print(line)
                                 print(self._move)
+
+                if (self._move < 43): # runs if the board filled with no winner
+                    surface.blit(draw, (19.5, 149)) # outputs Draw screen message
+                    pygame.display.flip() # flips to the display
+                    print('Draw!') # prints the draw message
+
+
+                for event in pygame.event.get(): # waits for a mouse click event
+                    if event.type == pygame.MOUSEBUTTONDOWN: # runs when the mouse click is lifted
+                        self._move = 0
+                        self.board = [[0,0,0,0,0,0,0],
+                                      [0,0,0,0,0,0,0],
+                                      [0,0,0,0,0,0,0],
+                                      [0,0,0,0,0,0,0],
+                                      [0,0,0,0,0,0,0],
+                                      [0,0,0,0,0,0,0]]
+                        gameRunning = False # sets the value to false to reset the game loop and reset the board
                             
             await asyncio.sleep(0)
