@@ -106,7 +106,8 @@ class connectFour:
         found is list of found in direction [vertical, horizonal, increasing, decreasing]
         '''
         if (dir == 1 or dir == 9):
-            if self.board[pos[0]][pos[1]] == 
+            if (pos[0] > 0 and pos[1] > 0):
+                if self.board[pos[0]][pos[1]] == 
 
         if (dir == 2 or dir == 9):
 

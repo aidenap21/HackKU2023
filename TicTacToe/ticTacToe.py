@@ -161,6 +161,8 @@ class TicTacToe:
                                         print('Invalid coordinates') # tells the user the coordinates are invalid
                     await asyncio.sleep(0) # allows pygbag to function to run in browser
 
+                await asyncio.sleep(0) # allows pygbag to function to run in browser
+                
                 if (self._turnNum < 10): # runs if the board filled with no winner
                     screen.blit(draw, (20, 160)) # outputs Draw screen message
                     pygame.display.flip() # flips to the display
