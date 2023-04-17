@@ -194,11 +194,11 @@ class CheckersBoard:
 
                 #await asyncio.sleep(0)
 
-                if (self._turn == 0):
+                if (self._turn == 1):
                     print('Red wins!')
                     screen.blit(red_wins, (20, 160)) # outputs red wins screen message
                     pygame.display.flip() # flips to the display
-                elif (self._turn == 1):
+                elif (self._turn == 0):
                     print('Black wins')
                     screen.blit(black_wins, (20, 160)) # outputs black wins screen message
                     pygame.display.flip() # flips to the display
